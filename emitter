@@ -1,0 +1,20 @@
+
+---
+
+### 🐍 `beacon/emitter.py`
+```python
+import socket
+import time
+
+SERVICE_NAME = "web-1"
+PORT = 9999
+INTERVAL = 3
+
+sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+broadcast = ("<broadcast>", PORT)
+sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
+
+while True:
+    msg = f"{SERVICE_NAME}|{int(time.time())}"
+    sock.sendto(msg.encode(), broadcast)
+    time.sleep(INTERVAL)
