@@ -1,0 +1,18 @@
+import socket
+import threading
+from registry import update_registry
+
+PORT = 9999
+
+sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+sock.bind(("", PORT))
+
+def listen():
+    while True:
+        data, addr = sock.recvfrom(1024)
+        message = data.decode()
+        update_registry(message, addr)
+
+if __name__ == "__main__":
+    threading.Thread(target=listen, daemon=True).start()
+    input("Receiver running. Press Enter to quit...\n")
